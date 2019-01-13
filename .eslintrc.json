@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "bloq",
+    "bloq/experimental",
+    "bloq/test-mocha"
+  ],
+  "rules": {
+    "complexity": ["error", { "max": 12 }]
+  }
+}
