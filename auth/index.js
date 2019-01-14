@@ -1,7 +1,7 @@
 'use strict'
 
 const axios = require('axios')
-const config = require('./config')
+const config = require('../config')
 
 function createAuthClient (refreshToken) {
   const client = {}
@@ -12,7 +12,7 @@ function createAuthClient (refreshToken) {
   })
 
   client.accessToken = function () {
-    return api.get(`/access-token`)
+    return api.get('/access-token')
   }
 
   return client

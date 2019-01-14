@@ -1,8 +1,8 @@
 'use strict'
 
 const axios = require('axios')
-const config = require('./config')
-const createAuthClient = require('./auth')
+const config = require('../config')
+const createAuthClient = require('../auth')
 
 function createClient ({
   accessToken,
@@ -12,7 +12,7 @@ function createClient ({
 }) {
   if (!accessToken && !refreshToken) {
     throw new Error(
-      'Failed creating bloqcloud insight client. accessToken or refreshToken ' +
+      'Failed creating bloqcloud blockchain client. accessToken or refreshToken ' +
       'is required'
     )
   }
@@ -24,7 +24,7 @@ function createClient ({
     : {}
 
   const api = axios.create({
-    baseURL: config.urls.insight[`${coin}-${network}`],
+    baseURL: config.urls.blockchain[`${coin}-${network}`],
     headers: { Authorization: `Bearer ${client.accessToken}` }
   })
 
