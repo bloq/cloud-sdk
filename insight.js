@@ -2,12 +2,65 @@
 
 const axios = require('axios')
 const config = require('./config')
+const createAuthClient = require('./auth')
 
-function createClient ({ token, coin = 'btc', network = 'livenet' }) {
-  const client = {}
+function createClient ({
+  accessToken,
+  refreshToken,
+  coin = 'btc',
+  network = 'livenet'
+}) {
+  if (!accessToken && !refreshToken) {
+    throw new Error(
+      'Failed creating bloqcloud insight client. accessToken or refreshToken ' +
+      'is required'
+    )
+  }
+
+  const useAuthClient = !!refreshToken
+  const client = { accessToken }
+  const authClient = useAuthClient
+    ? createAuthClient(refreshToken)
+    : {}
+
   const api = axios.create({
-    baseURL: config.urls[`${coin}-${network}`],
-    headers: { Authorization: `Bearer ${token}` }
+    baseURL: config.urls.insight[`${coin}-${network}`],
+    headers: { Authorization: `Bearer ${client.accessToken}` }
+  })
+
+  api.interceptors.request.use(function (config) {
+    if (!useAuthClient || accessToken) {
+      return config
+    }
+
+    return authClient.accessToken()
+      .then(function (accessToken) {
+        client.accessToken = accessToken
+        config.headers.Authorization = `Bearer ${accessToken}`
+        return config
+      })
+  }, function (err) {
+    return Promise.reject(err)
+  })
+
+  api.interceptors.response.use(function (response) {
+    return response
+  }, function (err) {
+    if (!err.response) {
+      return Promise.reject(err)
+    }
+
+    const { status, headers } = err.response
+    if (status !== 401 || !headers['x-access-token-expired']) {
+      return Promise.reject(err)
+    }
+
+    return authClient.accessToken()
+      .then(function (accessToken) {
+        client.accessToken = accessToken
+        err.config.headers.Authorization = `Bearer ${accessToken}`
+        return axios.request(err.config)
+      })
   })
 
   client.block = function (hash) {
@@ -23,7 +76,7 @@ function createClient ({ token, coin = 'btc', network = 'livenet' }) {
   }
 
   client.blocks = function ({ limit, date }) {
-    return api.get(`/blocks`, { params: { limit, date } })
+    return api.get('/blocks', { params: { limit, date } })
   }
 
   client.transaction = function (txid) {
@@ -60,11 +113,11 @@ function createClient ({ token, coin = 'btc', network = 'livenet' }) {
   }
 
   client.blockTransactions = function ({ block, pageNum }) {
-    return api.get(`/txs`, { params: { block, pageNum } })
+    return api.get('/txs', { params: { block, pageNum } })
   }
 
   client.addressTransactions = function ({ address, pageNum }) {
-    return api.get(`/txs`, { params: { address, pageNum } })
+    return api.get('/txs', { params: { address, pageNum } })
   }
 
   client.addressesTransactions = function ({
@@ -75,7 +128,7 @@ function createClient ({ token, coin = 'btc', network = 'livenet' }) {
     noScriptSig,
     noSpent
   }) {
-    return api.post(`/addrs/txs`, {
+    return api.post('/addrs/txs', {
       addrs: addresses,
       from,
       to,
@@ -86,23 +139,23 @@ function createClient ({ token, coin = 'btc', network = 'livenet' }) {
   }
 
   client.sendTransaction = function (rawtx) {
-    return api.post(`/tx/send`, { rawtx })
+    return api.post('/tx/send', { rawtx })
   }
 
   client.sync = function () {
-    return api.get(`/sync`)
+    return api.get('/sync')
   }
 
   client.peer = function () {
-    return api.get(`/peer`)
+    return api.get('/peer')
   }
 
   client.status = function (query) {
-    return api.get(`/status`, { params: { q: query } })
+    return api.get('/status', { params: { q: query } })
   }
 
   client.estimateFee = function (nbBlocks) {
-    return api.get(`/estimatefee`, { params: { nbBlocks } })
+    return api.get('/estimatefee', { params: { nbBlocks } })
   }
 
   return client

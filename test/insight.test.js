@@ -7,7 +7,7 @@ const config = require('../config')
 
 const coin = 'btc'
 const network = 'livenet'
-const endpoint = config.urls[`${coin}-${network}`]
+const endpoint = config.urls.insight[`${coin}-${network}`]
 const blockHash = '00000000000ef57d9307f89f36e052afdfceaeb71deb8d36cfdd11dcef' +
                   'dc2490'
 const transactionId = 'f64a111dba007fae77e0ad0488d9844b9e8b075fda321265a0e885' +
@@ -16,11 +16,37 @@ const address = 'mtbLoq1aCQ8VceaWKCmQsjwrEQkN4m8hbF'
 
 describe('Insight Client', function () {
   const client = createInsightClient({
-    token: 'token',
+    accessToken: 'accessToken',
     coin: 'btc',
     network: 'livenet'
   })
   const response = { foo: 'baz' }
+
+  it('throws if not accessToken or refreshToken are defined', function () {
+    assert.throws(() => createInsightClient({
+      coin: 'btc',
+      network: 'livenet'
+    }), Error)
+
+    assert.doesNotThrow(() => createInsightClient({
+      accessToken: 'accessToken',
+      coin: 'btc',
+      network: 'livenet'
+    }), Error)
+
+    assert.doesNotThrow(() => createInsightClient({
+      refreshToken: 'refreshToken',
+      coin: 'btc',
+      network: 'livenet'
+    }), Error)
+
+    assert.doesNotThrow(() => createInsightClient({
+      refreshToken: 'refreshToken',
+      accessToken: 'accessToken',
+      coin: 'btc',
+      network: 'livenet'
+    }), Error)
+  })
 
   it('should get a block', function () {
     const request = nock(endpoint)

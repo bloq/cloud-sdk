@@ -1,6 +1,9 @@
 {
   "urls": {
-    "btc-livenet": "https://btc.alpha.bloq.cloud",
-    "bch-livenet": "https://bch.alpha.bloq.cloud"
+    "insight": {
+      "btc-livenet": "https://btc.alpha.bloq.cloud",
+      "bch-livenet": "https://bch.alpha.bloq.cloud"
+    },
+    "accounts": "https://accounts.bloq.cloud"
   }
 }
