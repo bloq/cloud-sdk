@@ -4,12 +4,24 @@ Javascript SDK to interact with bloqcloud blockchains
 ## Install
 
 ```bash
-$ npm install --save bloqpriv/cloud-sdk/blockchain
+$ npm install --save bloqpriv/cloud-sdk
 ```
 
 ```bash
-$ yarn add bloqpriv/cloud-sdk/blockchain
+$ yarn add bloqpriv/cloud-sdk
 ```
+
+## Import
+There are two ways of importing the Blockchain sdk
+
+```javascript
+const blockchain = require('@bloq/cloud-sdk/blockchain')
+```
+
+```javascript
+const { blockchain } = require('@bloq/cloud-sdk')
+```
+
 
 ## Use
 

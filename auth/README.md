@@ -4,11 +4,22 @@ Javascript SDK to interact with bloqcloud accounts
 ## Install
 
 ```bash
-$ npm install --save bloqpriv/cloud-sdk/auth
+$ npm install --save bloqpriv/cloud-sdk
 ```
 
 ```bash
-$ yarn add bloqpriv/cloud-sdk/auth
+$ yarn add bloqpriv/cloud-sdk
+```
+
+## Import
+There are two ways of importing the Auth sdk
+
+```javascript
+const auth = require('@bloq/cloud-sdk/auth')
+```
+
+```javascript
+const { auth } = require('@bloq/cloud-sdk')
 ```
 
 ## Use
