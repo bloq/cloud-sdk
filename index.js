@@ -1,9 +1,11 @@
 'use strict'
 
-const insight = require('./insight')
+const blockchain = require('./blockchain')
+const auth = require('./auth')
 
 const sdk = {
-  insight
+  blockchain,
+  auth
 }
 
 module.exports = sdk

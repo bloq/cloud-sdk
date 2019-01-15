@@ -5,6 +5,7 @@
     "bloq/test-mocha"
   ],
   "rules": {
-    "complexity": ["error", { "max": 12 }]
+    "complexity": ["error", { "max": 12 }],
+    "no-shadow": "off"
   }
 }
