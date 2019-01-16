@@ -65,59 +65,74 @@ function createClient ({
 
   client.block = function (hash) {
     return api.get(`/block/${hash}`)
+      .then(res => res.data)
   }
 
   client.blockHash = function (height) {
     return api.get(`/block-index/${height}`)
+      .then(res => res.data)
   }
 
   client.rawBlock = function (hash) {
     return api.get(`/rawblock/${hash}`)
+      .then(res => res.data)
   }
 
   client.blocks = function ({ limit, date }) {
     return api.get('/blocks', { params: { limit, date } })
+      .then(res => res.data)
   }
 
   client.transaction = function (txid) {
     return api.get(`/tx/${txid}`)
+      .then(res => res.data)
   }
 
   client.rawTransaction = function (txid) {
     return api.get(`/rawtx/${txid}`)
+      .then(res => res.data)
   }
 
   client.address = function ({ address, from, to, noTxList }) {
     return api.get(`/addr/${address}`, { params: { from, to, noTxList } })
+      .then(res => res.data)
   }
 
   client.addressBalance = function (addr) {
     return api.get(`/addr/${addr}/balance`)
+      .then(res => res.data)
   }
 
   client.addressTotalReceived = function (addr) {
     return api.get(`/addr/${addr}/totalReceived`)
+      .then(res => res.data)
   }
 
   client.addressTotalSent = function (addr) {
     return api.get(`/addr/${addr}/totalSent`)
+      .then(res => res.data)
   }
 
   client.addressUnconfirmedBalance = function (addr) {
     return api.get(`/addr/${addr}/unconfirmedBalance`)
+      .then(res => res.data)
   }
 
   client.addressUnspentOutputs = function (addresses) {
     const addrs = Array.isArray(addresses) ? addresses : [addresses]
+
     return api.get(`/addrs/${addrs}/utxo`)
+      .then(res => res.data)
   }
 
   client.blockTransactions = function ({ block, pageNum }) {
     return api.get('/txs', { params: { block, pageNum } })
+      .then(res => res.data)
   }
 
   client.addressTransactions = function ({ address, pageNum }) {
     return api.get('/txs', { params: { address, pageNum } })
+      .then(res => res.data)
   }
 
   client.addressesTransactions = function ({
@@ -136,26 +151,32 @@ function createClient ({
       noScriptSig,
       noSpent
     })
+      .then(res => res.data)
   }
 
   client.sendTransaction = function (rawtx) {
     return api.post('/tx/send', { rawtx })
+      .then(res => res.data)
   }
 
   client.sync = function () {
     return api.get('/sync')
+      .then(res => res.data)
   }
 
   client.peer = function () {
     return api.get('/peer')
+      .then(res => res.data)
   }
 
   client.status = function (query) {
     return api.get('/status', { params: { q: query } })
+      .then(res => res.data)
   }
 
   client.estimateFee = function (nbBlocks) {
     return api.get('/estimatefee', { params: { nbBlocks } })
+      .then(res => res.data)
   }
 
   return client
