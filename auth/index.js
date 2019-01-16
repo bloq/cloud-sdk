@@ -13,6 +13,7 @@ function createAuthClient (refreshToken) {
 
   client.accessToken = function () {
     return api.get('/access-token')
+      .then(res => res.data)
   }
 
   return client
