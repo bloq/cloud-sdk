@@ -20,7 +20,6 @@ describe('Blockchain Client', function () {
     coin: 'btc',
     network: 'livenet'
   })
-  const response = { foo: 'baz' }
 
   it('throws if not accessToken or refreshToken are defined', function () {
     assert.throws(() => createBlockchainClient({
@@ -51,11 +50,10 @@ describe('Blockchain Client', function () {
   it('should get a block', function () {
     const request = nock(endpoint)
       .get(`/block/${blockHash}`)
-      .reply(200, response)
+      .reply(200)
 
     return client.block(blockHash)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -64,11 +62,10 @@ describe('Blockchain Client', function () {
     const blockHeight = 1
     const request = nock(endpoint)
       .get(`/block-index/${blockHeight}`)
-      .reply(200, response)
+      .reply(200)
 
     return client.blockHash(blockHeight)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -76,11 +73,10 @@ describe('Blockchain Client', function () {
   it('should get a raw block', function () {
     const request = nock(endpoint)
       .get(`/rawblock/${blockHash}`)
-      .reply(200, response)
+      .reply(200)
 
     return client.rawBlock(blockHash)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -88,16 +84,15 @@ describe('Blockchain Client', function () {
   it('should get blocks', function () {
     const query = {
       limit: 1,
-      date: '2016-04-22'
+      blockDate: '2016-04-22'
     }
     const request = nock(endpoint)
       .get('/blocks')
       .query(query)
-      .reply(200, response)
+      .reply(200)
 
     return client.blocks(query)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -105,11 +100,10 @@ describe('Blockchain Client', function () {
   it('should get a transaction', function () {
     const request = nock(endpoint)
       .get(`/tx/${transactionId}`)
-      .reply(200, response)
+      .reply(200)
 
     return client.transaction(transactionId)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -117,11 +111,10 @@ describe('Blockchain Client', function () {
   it('should get a raw transaction', function () {
     const request = nock(endpoint)
       .get(`/rawtx/${transactionId}`)
-      .reply(200, response)
+      .reply(200)
 
     return client.rawTransaction(transactionId)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -134,7 +127,7 @@ describe('Blockchain Client', function () {
         to: 2,
         noTxList: 1
       })
-      .reply(200, response)
+      .reply(200)
 
     return client.address({
       address,
@@ -142,8 +135,7 @@ describe('Blockchain Client', function () {
       to: 2,
       noTxList: 1
     })
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -152,11 +144,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get(`/addr/${address}/balance`)
       .query()
-      .reply(200, response)
+      .reply(200)
 
     return client.addressBalance(address)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -165,11 +156,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get(`/addr/${address}/balance`)
       .query()
-      .reply(200, response)
+      .reply(200)
 
     return client.addressBalance(address)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -178,11 +168,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get(`/addr/${address}/totalSent`)
       .query()
-      .reply(200, response)
+      .reply(200)
 
     return client.addressTotalSent(address)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -191,11 +180,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get(`/addr/${address}/totalSent`)
       .query()
-      .reply(200, response)
+      .reply(200)
 
     return client.addressTotalSent(address)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -204,11 +192,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get(`/addr/${address}/unconfirmedBalance`)
       .query()
-      .reply(200, response)
+      .reply(200)
 
     return client.addressUnconfirmedBalance(address)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -217,11 +204,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get(`/addrs/${address}/utxo`)
       .query()
-      .reply(200, response)
+      .reply(200)
 
     return client.addressUnspentOutputs(address)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -231,11 +217,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get('/txs')
       .query(query)
-      .reply(200, response)
+      .reply(200)
 
     return client.blockTransactions(query)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -245,11 +230,10 @@ describe('Blockchain Client', function () {
     const request = nock(endpoint)
       .get('/txs')
       .query(query)
-      .reply(200, response)
+      .reply(200)
 
     return client.addressTransactions(query)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -264,7 +248,7 @@ describe('Blockchain Client', function () {
         noScriptSig: true,
         noSpent: true
       })
-      .reply(200, response)
+      .reply(200)
 
     return client.addressesTransactions({
       addresses: [address],
@@ -274,8 +258,7 @@ describe('Blockchain Client', function () {
       noScriptSig: true,
       noSpent: true
     })
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -284,11 +267,10 @@ describe('Blockchain Client', function () {
     const rawTransaction = { foo: 'baz' }
     const request = nock(endpoint)
       .post('/tx/send', { rawtx: rawTransaction })
-      .reply(200, response)
+      .reply(200)
 
     return client.sendTransaction(rawTransaction)
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -296,11 +278,10 @@ describe('Blockchain Client', function () {
   it('should get sync data', function () {
     const request = nock(endpoint)
       .get('/sync')
-      .reply(200, response)
+      .reply(200)
 
     return client.sync()
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -308,11 +289,10 @@ describe('Blockchain Client', function () {
   it('should get peer data', function () {
     const request = nock(endpoint)
       .get('/peer')
-      .reply(200, response)
+      .reply(200)
 
     return client.peer()
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -320,11 +300,10 @@ describe('Blockchain Client', function () {
   it('should get status data', function () {
     const request = nock(endpoint)
       .get('/status')
-      .reply(200, response)
+      .reply(200)
 
     return client.status()
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })
@@ -332,11 +311,10 @@ describe('Blockchain Client', function () {
   it('should get fee estimatation', function () {
     const request = nock(endpoint)
       .get('/estimatefee')
-      .reply(200, response)
+      .reply(200)
 
     return client.estimateFee()
-      .then(function (res) {
-        assert.deepStrictEqual(res.data, response)
+      .then(function () {
         assert(request.isDone())
       })
   })

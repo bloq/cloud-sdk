@@ -8,7 +8,8 @@ function createClient ({
   accessToken,
   refreshToken,
   coin = 'btc',
-  network = 'livenet'
+  network = 'livenet',
+  url = config.urls.blockchain[`${coin}-${network}`]
 }) {
   if (!accessToken && !refreshToken) {
     throw new Error(
@@ -24,7 +25,7 @@ function createClient ({
     : {}
 
   const api = axios.create({
-    baseURL: config.urls.blockchain[`${coin}-${network}`],
+    baseURL: url,
     headers: { Authorization: `Bearer ${client.accessToken}` }
   })
 
@@ -78,8 +79,8 @@ function createClient ({
       .then(res => res.data)
   }
 
-  client.blocks = function ({ limit, date }) {
-    return api.get('/blocks', { params: { limit, date } })
+  client.blocks = function ({ limit, blockDate } = {}) {
+    return api.get('/blocks', { params: { limit, blockDate } })
       .then(res => res.data)
   }
 
@@ -93,7 +94,7 @@ function createClient ({
       .then(res => res.data)
   }
 
-  client.address = function ({ address, from, to, noTxList }) {
+  client.address = function ({ address, from, to, noTxList } = {}) {
     return api.get(`/addr/${address}`, { params: { from, to, noTxList } })
       .then(res => res.data)
   }
@@ -125,12 +126,12 @@ function createClient ({
       .then(res => res.data)
   }
 
-  client.blockTransactions = function ({ block, pageNum }) {
+  client.blockTransactions = function ({ block, pageNum } = {}) {
     return api.get('/txs', { params: { block, pageNum } })
       .then(res => res.data)
   }
 
-  client.addressTransactions = function ({ address, pageNum }) {
+  client.addressTransactions = function ({ address, pageNum } = {}) {
     return api.get('/txs', { params: { address, pageNum } })
       .then(res => res.data)
   }
@@ -142,7 +143,7 @@ function createClient ({
     noAsm,
     noScriptSig,
     noSpent
-  }) {
+  } = {}) {
     return api.post('/addrs/txs', {
       addrs: addresses,
       from,
