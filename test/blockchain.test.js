@@ -310,7 +310,7 @@ describe('Blockchain Client', function () {
 
   it('should get fee estimatation', function () {
     const request = nock(endpoint)
-      .get('/estimatefee')
+      .get('/utils/estimatefee')
       .reply(200)
 
     return client.estimateFee()

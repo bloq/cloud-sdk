@@ -176,7 +176,7 @@ function createClient ({
   }
 
   client.estimateFee = function (nbBlocks) {
-    return api.get('/estimatefee', { params: { nbBlocks } })
+    return api.get('/utils/estimatefee', { params: { nbBlocks } })
       .then(res => res.data)
   }
 
