@@ -9,7 +9,8 @@ function createClient ({
   refreshToken,
   coin = 'btc',
   network = 'livenet',
-  url = config.urls.blockchain[`${coin}-${network}`]
+  url = config.urls.blockchain[`${coin}-${network}`],
+  authUrl
 }) {
   if (!accessToken && !refreshToken) {
     throw new Error(
@@ -21,7 +22,7 @@ function createClient ({
   const useAuthClient = !!refreshToken
   const client = { accessToken }
   const authClient = useAuthClient
-    ? createAuthClient(refreshToken)
+    ? createAuthClient({ refreshToken, authUrl })
     : {}
 
   const api = axios.create({

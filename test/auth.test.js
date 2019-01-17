@@ -11,12 +11,8 @@ describe('Auth Client', function () {
   const client = createAuthClient({ refreshToken })
 
   it('should get an access token', function () {
-    const request = nock(config.urls.accounts, {
-      reqheaders: {
-        Authorization: `Bearer ${refreshToken}`
-      }
-    })
-      .get('/access-token')
+    const request = nock(config.urls.accounts)
+      .put('/auth/token', { refreshToken })
       .reply(200)
 
     return client.accessToken()

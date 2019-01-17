@@ -5,14 +5,10 @@ const config = require('../config')
 
 function createAuthClient ({ refreshToken, url = config.urls.accounts }) {
   const client = {}
-
-  const api = axios.create({
-    baseURL: url,
-    headers: { Authorization: `Bearer ${refreshToken}` }
-  })
+  const api = axios.create({ baseURL: url })
 
   client.accessToken = function () {
-    return api.get('/access-token')
+    return api.put('/auth/token', { refreshToken })
       .then(res => res.data)
   }
 
