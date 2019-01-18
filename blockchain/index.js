@@ -4,6 +4,8 @@ const axios = require('axios')
 const config = require('../config')
 const createAuthClient = require('../auth')
 
+const JWT_EXPIRED_ERROR = 'jwt expired'
+
 function createClient ({
   accessToken,
   refreshToken,
@@ -19,23 +21,19 @@ function createClient ({
     )
   }
 
-  const useAuthClient = !!refreshToken
   const client = { accessToken }
-  const authClient = useAuthClient
-    ? createAuthClient({ refreshToken, authUrl })
+  const api = axios.create({ baseURL: url })
+  const auth = refreshToken
+    ? createAuthClient({ refreshToken, url: authUrl })
     : {}
 
-  const api = axios.create({
-    baseURL: url,
-    headers: { Authorization: `Bearer ${client.accessToken}` }
-  })
-
   api.interceptors.request.use(function (config) {
-    if (!useAuthClient || accessToken) {
+    if (client.accessToken) {
+      config.headers.Authorization = `Bearer ${client.accessToken}`
       return config
     }
 
-    return authClient.accessToken()
+    return auth.accessToken()
       .then(function (accessToken) {
         client.accessToken = accessToken
         config.headers.Authorization = `Bearer ${accessToken}`
@@ -52,12 +50,12 @@ function createClient ({
       return Promise.reject(err)
     }
 
-    const { status, headers } = err.response
-    if (status !== 401 || !headers['x-access-token-expired']) {
+    const { status, data } = err.response
+    if (!(status === 401 && data === JWT_EXPIRED_ERROR)) {
       return Promise.reject(err)
     }
 
-    return authClient.accessToken()
+    return auth.accessToken()
       .then(function (accessToken) {
         client.accessToken = accessToken
         err.config.headers.Authorization = `Bearer ${accessToken}`

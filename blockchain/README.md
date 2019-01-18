@@ -11,29 +11,17 @@ $ npm install --save bloqpriv/cloud-sdk
 $ yarn add bloqpriv/cloud-sdk
 ```
 
-## Import
-There are two ways of importing the Blockchain sdk
-
-```javascript
-const blockchain = require('@bloq/cloud-sdk/blockchain')
-```
-
-```javascript
-const { blockchain } = require('@bloq/cloud-sdk')
-```
-
-
 ## Use
 
 ```javascript
-const createBlockchainClient = require('@bloq/cloud-sdk/blockchain')
+const { blockchain } = require('@bloq/cloud-sdk')
 
 const refreshToken = 'REFRESH_TOKEN'
 const accessToken = 'ACCESS_TOKEN'
 const coin = 'btc'
 const network = 'livenet'
 
-const client = createBlockchainClient({
+const client = blockchain({
   refreshToken,
   accessToken,
   coin,
