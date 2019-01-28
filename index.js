@@ -1,10 +1,10 @@
 'use strict'
 
-const blockchain = require('./blockchain')
+const insight = require('./insight')
 const auth = require('./auth')
 
 const sdk = {
-  blockchain,
+  insight,
   auth
 }
 

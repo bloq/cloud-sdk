@@ -16,12 +16,12 @@ $ yarn add bloqpriv/cloud-sdk
 This SDK exposes multiple libraries. Each documentation can be found in the links below
 
 ```javascript
-const { auth, blockchain } = require('@bloq/cloud-sdk')
+const { auth, insight } = require('@bloq/cloud-sdk')
 
 ```
 
 * [Auth](./auth/README.md)
-* [Blockchain](./blockchain/README.md)
+* [Insight](./insight/README.md)
 
 ## Test
 
