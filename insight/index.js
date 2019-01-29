@@ -7,25 +7,21 @@ const createAuthClient = require('../auth')
 const JWT_EXPIRED_ERROR = 'jwt expired'
 
 function createClient ({
-  accessToken,
-  refreshToken,
   coin = 'btc',
   network = 'livenet',
-  url = config.urls.blockchain[`${coin}-${network}`],
-  authUrl
+  url = config.urls.insight[`${coin}-${network}`],
+  auth = {}
 }) {
-  if (!accessToken && !refreshToken) {
+  if (!auth.clientId || !auth.clientSecret) {
     throw new Error(
-      'Failed creating bloqcloud blockchain client. accessToken or refreshToken ' +
-      'is required'
+      'Failed creating bloqcloud insight client. client id and client ' +
+      'secret are required'
     )
   }
 
-  const client = { accessToken }
   const api = axios.create({ baseURL: url })
-  const auth = refreshToken
-    ? createAuthClient({ refreshToken, url: authUrl })
-    : {}
+  const authClient = createAuthClient(auth)
+  const client = { accessToken: null }
 
   api.interceptors.request.use(function (config) {
     if (client.accessToken) {
@@ -33,7 +29,7 @@ function createClient ({
       return config
     }
 
-    return auth.accessToken()
+    return authClient.accessToken()
       .then(function (accessToken) {
         client.accessToken = accessToken
         config.headers.Authorization = `Bearer ${accessToken}`
@@ -55,7 +51,7 @@ function createClient ({
       return Promise.reject(err)
     }
 
-    return auth.accessToken()
+    return authClient.accessToken()
       .then(function (accessToken) {
         client.accessToken = accessToken
         err.config.headers.Authorization = `Bearer ${accessToken}`

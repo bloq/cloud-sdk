@@ -1,4 +1,4 @@
-# Blockchain cloud-sdk
+# Insight cloud-sdk
 Javascript SDK to interact with bloqcloud blockchains
 
 ## Install
@@ -14,14 +14,14 @@ $ yarn add bloqpriv/cloud-sdk
 ## Use
 
 ```javascript
-const { blockchain } = require('@bloq/cloud-sdk')
+const { insight } = require('@bloq/cloud-sdk')
 
 const refreshToken = 'REFRESH_TOKEN'
 const accessToken = 'ACCESS_TOKEN'
 const coin = 'btc'
 const network = 'livenet'
 
-const client = blockchain({
+const client = insight({
   refreshToken,
   accessToken,
   coin,

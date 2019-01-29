@@ -2,53 +2,68 @@
 
 const nock = require('nock')
 const assert = require('assert')
-const createBlockchainClient = require('../blockchain')
 const config = require('../config')
+const { insight } = require('..')
 
 const coin = 'btc'
 const network = 'livenet'
-const endpoint = config.urls.blockchain[`${coin}-${network}`]
+const url = config.urls.insight[`${coin}-${network}`]
+const authUrl = config.urls.accounts
 const blockHash = '00000000000ef57d9307f89f36e052afdfceaeb71deb8d36cfdd11dcef' +
                   'dc2490'
 const transactionId = 'f64a111dba007fae77e0ad0488d9844b9e8b075fda321265a0e885' +
                       '56c98f1c94'
 const address = 'mtbLoq1aCQ8VceaWKCmQsjwrEQkN4m8hbF'
 
-describe('Blockchain Client', function () {
-  const client = createBlockchainClient({
-    accessToken: 'accessToken',
+describe('Insight Client', function () {
+  const client = insight({
     coin: 'btc',
-    network: 'livenet'
+    network: 'livenet',
+    url,
+    auth: {
+      clientId: 'CLIENT_ID',
+      clientSecret: 'CLIENT_SECRET',
+      url: authUrl
+    }
   })
 
-  it('throws if not accessToken or refreshToken are defined', function () {
-    assert.throws(() => createBlockchainClient({
+  // Note: Avoid client to request a new access token
+  client.accessToken = 'ACCESS_TOKEN'
+
+  it('throws if client id or client secret are not defined', function () {
+    assert.throws(() => insight({
       coin: 'btc',
       network: 'livenet'
     }), Error)
 
-    assert.doesNotThrow(() => createBlockchainClient({
-      accessToken: 'accessToken',
+    assert.throws(() => insight({
       coin: 'btc',
-      network: 'livenet'
+      network: 'livenet',
+      auth: {
+        clientId: 'CLIENT_ID'
+      }
     }), Error)
 
-    assert.doesNotThrow(() => createBlockchainClient({
-      refreshToken: 'refreshToken',
+    assert.throws(() => insight({
       coin: 'btc',
-      network: 'livenet'
+      network: 'livenet',
+      auth: {
+        clientSecret: 'CLIENT_SECRET'
+      }
     }), Error)
 
-    assert.doesNotThrow(() => createBlockchainClient({
-      refreshToken: 'refreshToken',
-      accessToken: 'accessToken',
+    assert.doesNotThrow(() => insight({
       coin: 'btc',
-      network: 'livenet'
+      network: 'livenet',
+      auth: {
+        clientId: 'CLIENT_ID',
+        clientSecret: 'CLIENT_SECRET'
+      }
     }), Error)
   })
 
   it('should get a block', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/block/${blockHash}`)
       .reply(200)
 
@@ -60,7 +75,7 @@ describe('Blockchain Client', function () {
 
   it('should get a block hash', function () {
     const blockHeight = 1
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/block-index/${blockHeight}`)
       .reply(200)
 
@@ -71,7 +86,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get a raw block', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/rawblock/${blockHash}`)
       .reply(200)
 
@@ -86,7 +101,7 @@ describe('Blockchain Client', function () {
       limit: 1,
       blockDate: '2016-04-22'
     }
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/blocks')
       .query(query)
       .reply(200)
@@ -98,7 +113,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get a transaction', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/tx/${transactionId}`)
       .reply(200)
 
@@ -109,7 +124,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get a raw transaction', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/rawtx/${transactionId}`)
       .reply(200)
 
@@ -120,7 +135,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get an address', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addr/${address}`)
       .query({
         from: 1,
@@ -141,7 +156,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get an address balance', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addr/${address}/balance`)
       .query()
       .reply(200)
@@ -153,7 +168,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get an address total received balance', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addr/${address}/balance`)
       .query()
       .reply(200)
@@ -165,7 +180,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get an address total sent balance', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addr/${address}/totalSent`)
       .query()
       .reply(200)
@@ -177,7 +192,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get an address total sent balance', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addr/${address}/totalSent`)
       .query()
       .reply(200)
@@ -189,7 +204,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get an address unconfirmed balance', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addr/${address}/unconfirmedBalance`)
       .query()
       .reply(200)
@@ -201,7 +216,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get addresses unspent outputs', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get(`/addrs/${address}/utxo`)
       .query()
       .reply(200)
@@ -214,7 +229,7 @@ describe('Blockchain Client', function () {
 
   it('should get block transactions', function () {
     const query = { block: blockHash, pageNum: 2 }
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/txs')
       .query(query)
       .reply(200)
@@ -227,7 +242,7 @@ describe('Blockchain Client', function () {
 
   it('should get address transactions', function () {
     const query = { address, pageNum: 2 }
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/txs')
       .query(query)
       .reply(200)
@@ -239,7 +254,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get addresses transactions', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .post('/addrs/txs', {
         addrs: [address],
         from: 2,
@@ -265,7 +280,7 @@ describe('Blockchain Client', function () {
 
   it('should send a transactions', function () {
     const rawTransaction = { foo: 'baz' }
-    const request = nock(endpoint)
+    const request = nock(url)
       .post('/tx/send', { rawtx: rawTransaction })
       .reply(200)
 
@@ -276,7 +291,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get sync data', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/sync')
       .reply(200)
 
@@ -287,7 +302,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get peer data', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/peer')
       .reply(200)
 
@@ -298,7 +313,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get status data', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/status')
       .reply(200)
 
@@ -309,7 +324,7 @@ describe('Blockchain Client', function () {
   })
 
   it('should get fee estimatation', function () {
-    const request = nock(endpoint)
+    const request = nock(url)
       .get('/utils/estimatefee')
       .reply(200)
 
