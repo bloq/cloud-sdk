@@ -1,14 +1,14 @@
 'use strict'
 
 const axios = require('axios')
-const config = require('../config')
+const config = require('../../config')
 const createAuthClient = require('../auth')
 
 const JWT_EXPIRED_ERROR = 'jwt expired'
 
 function createClient ({
   coin = 'btc',
-  network = 'livenet',
+  network = 'mainnet',
   url = config.urls.insight[`${coin}-${network}`],
   auth = {}
 }) {
@@ -19,9 +19,9 @@ function createClient ({
     )
   }
 
+  const client = { accessToken: null }
   const api = axios.create({ baseURL: url })
   const authClient = createAuthClient(auth)
-  const client = { accessToken: null }
 
   api.interceptors.request.use(function (config) {
     if (client.accessToken) {
@@ -30,9 +30,9 @@ function createClient ({
     }
 
     return authClient.accessToken()
-      .then(function (accessToken) {
-        client.accessToken = accessToken
-        config.headers.Authorization = `Bearer ${accessToken}`
+      .then(function (token) {
+        client.accessToken = token
+        config.headers.Authorization = `Bearer ${token}`
         return config
       })
   }, function (err) {
@@ -47,7 +47,8 @@ function createClient ({
     }
 
     const { status, data } = err.response
-    if (!(status === 401 && data === JWT_EXPIRED_ERROR)) {
+    const isExpiredError = status === 401 && data === JWT_EXPIRED_ERROR
+    if (!(isExpiredError)) {
       return Promise.reject(err)
     }
 

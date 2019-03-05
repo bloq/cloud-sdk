@@ -20,8 +20,8 @@ const { auth, insight } = require('@bloq/cloud-sdk')
 
 ```
 
-* [Auth](./auth/README.md)
-* [Insight](./insight/README.md)
+* [Auth](./src/auth/README.md)
+* [Insight](./src/insight/README.md)
 
 ## Test
 

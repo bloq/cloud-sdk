@@ -3,12 +3,11 @@
 const nock = require('nock')
 const assert = require('assert')
 const config = require('../config')
-const { insight } = require('..')
+const { insight } = require('../')
 
 const coin = 'btc'
-const network = 'livenet'
+const network = 'mainnet'
 const url = config.urls.insight[`${coin}-${network}`]
-const authUrl = config.urls.accounts
 const blockHash = '00000000000ef57d9307f89f36e052afdfceaeb71deb8d36cfdd11dcef' +
                   'dc2490'
 const transactionId = 'f64a111dba007fae77e0ad0488d9844b9e8b075fda321265a0e885' +
@@ -16,14 +15,14 @@ const transactionId = 'f64a111dba007fae77e0ad0488d9844b9e8b075fda321265a0e885' +
 const address = 'mtbLoq1aCQ8VceaWKCmQsjwrEQkN4m8hbF'
 
 describe('Insight Client', function () {
-  const client = insight({
+  const client = insight.http({
     coin: 'btc',
-    network: 'livenet',
+    network: 'mainnet',
     url,
     auth: {
       clientId: 'CLIENT_ID',
       clientSecret: 'CLIENT_SECRET',
-      url: authUrl
+      url: config.urls.accounts
     }
   })
 
@@ -31,30 +30,30 @@ describe('Insight Client', function () {
   client.accessToken = 'ACCESS_TOKEN'
 
   it('throws if client id or client secret are not defined', function () {
-    assert.throws(() => insight({
+    assert.throws(() => insight.http({
       coin: 'btc',
-      network: 'livenet'
+      network: 'mainnet'
     }), Error)
 
-    assert.throws(() => insight({
+    assert.throws(() => insight.http({
       coin: 'btc',
-      network: 'livenet',
+      network: 'mainnet',
       auth: {
         clientId: 'CLIENT_ID'
       }
     }), Error)
 
-    assert.throws(() => insight({
+    assert.throws(() => insight.http({
       coin: 'btc',
-      network: 'livenet',
+      network: 'mainnet',
       auth: {
         clientSecret: 'CLIENT_SECRET'
       }
     }), Error)
 
-    assert.doesNotThrow(() => insight({
+    assert.doesNotThrow(() => insight.http({
       coin: 'btc',
-      network: 'livenet',
+      network: 'mainnet',
       auth: {
         clientId: 'CLIENT_ID',
         clientSecret: 'CLIENT_SECRET'
