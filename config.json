@@ -1,8 +1,8 @@
 {
   "urls": {
     "insight": {
-      "btc-mainnet": "http://btc.insight.bloq.cloud",
-      "bch-mainnet": "http://bch.insight.bloq.cloud"
+      "btc-mainnet": "http://btc.insight.bloq.cloud/api",
+      "bch-mainnet": "http://bch.insight.bloq.cloud/api"
     },
     "accounts": "https://accounts.bloq.cloud"
   }
