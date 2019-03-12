@@ -1,6 +1,6 @@
 {
   "name": "@bloq/cloud-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Javascript SDK to interact with BloqCloud services",
   "main": "index.js",
   "scripts": {
