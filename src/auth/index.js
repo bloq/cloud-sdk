@@ -10,7 +10,7 @@ function createAuthClient ({
 }) {
   if (!clientId || !clientSecret) {
     throw new Error(
-      'Failed creating bloqcloud auth client. client id and client secret ' +
+      'Failed creating BloqCloud auth client. client id and client secret ' +
       'are required'
     )
   }

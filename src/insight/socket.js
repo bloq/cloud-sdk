@@ -14,7 +14,7 @@ function createClient ({
 }) {
   if (!auth.clientId || !auth.clientSecret) {
     throw new Error(
-      'Failed creating bloqcloud insight client. client id and client ' +
+      'Failed creating BloqCloud insight client. client id and client ' +
       'secret are required'
     )
   }

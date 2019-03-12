@@ -1,5 +1,5 @@
 # Auth cloud-sdk
-Javascript SDK to interact with bloqcloud accounts
+Javascript SDK to interact with BloqCloud accounts
 
 ## Install
 

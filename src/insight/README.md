@@ -1,5 +1,5 @@
 # Insight cloud-sdk
-Javascript SDK to interact with bloqcloud blockchains
+Javascript SDK to interact with BloqCloud blockchains
 
 ## Install
 

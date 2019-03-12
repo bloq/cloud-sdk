@@ -1,5 +1,5 @@
 # cloud-sdk
-Javascript SDK to interact with bloqcloud services
+Javascript SDK to interact with BloqCloud services
 
 ## Install
 
