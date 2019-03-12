@@ -4,11 +4,11 @@ Javascript SDK to interact with bloqcloud services
 ## Install
 
 ```bash
-$ npm install --save bloqpriv/cloud-sdk
+$ npm install --save @bloq/cloud-sdk
 ```
 
 ```bash
-$ yarn add bloqpriv/cloud-sdk
+$ yarn add @bloq/cloud-sdk
 ```
 
 ## Use
