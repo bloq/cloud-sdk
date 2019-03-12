@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bloqpriv/cloud-sdk.git"
+    "url": "git+https://github.com/bloq/cloud-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/bloqpriv/cloud-sdk/issues"
+    "url": "https://github.com/bloq/cloud-sdk/issues"
   },
-  "homepage": "https://github.com/bloqpriv/cloud-sdk#readme",
+  "homepage": "https://github.com/bloq/cloud-sdk#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "socket.io-client": "^2.2.0"
