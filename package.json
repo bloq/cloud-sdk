@@ -1,7 +1,7 @@
 {
   "name": "@bloq/cloud-sdk",
   "version": "0.1.1",
-  "description": "Javascript SDK to interact with bloqcloud services",
+  "description": "Javascript SDK to interact with BloqCloud services",
   "main": "index.js",
   "scripts": {
     "publish": "npm publish --access public",
