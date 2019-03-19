@@ -168,11 +168,11 @@ describe('Insight Client', function () {
 
   it('should get an address total received balance', function () {
     const request = nock(url)
-      .get(`/addr/${address}/balance`)
+      .get(`/addr/${address}/totalReceived`)
       .query()
       .reply(200)
 
-    return client.addressBalance(address)
+    return client.addressTotalReceived(address)
       .then(function () {
         assert(request.isDone())
       })
