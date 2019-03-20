@@ -1,6 +1,8 @@
 # cloud-sdk
 Javascript SDK to interact with BloqCloud services
 
+[![Build Status](https://travis-ci.org/bloq/cloud-sdk.svg?branch=master)](https://travis-ci.org/bloq/cloud-sdk)
+
 ## Install
 
 ```bash
