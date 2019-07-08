@@ -3,7 +3,7 @@
 const io = require('socket.io-client')
 const pDefer = require('p-defer')
 const config = require('../../config')
-const { auth: createAuthClient } = require('../../')
+const createAuthClient = require('../auth')
 
 function createClient ({
   coin = 'btc',
