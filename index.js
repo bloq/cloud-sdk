@@ -1,13 +1,13 @@
 'use strict'
 
-const insightHttp = require('./src/insight/http')
-const insightSocket = require('./src/insight/socket')
+const connectHttp = require('./src/connect/http')
+const connectSocket = require('./src/connect/socket')
 const auth = require('./src/auth')
 
 const sdk = {
-  insight: {
-    http: insightHttp,
-    socket: insightSocket
+  connect: {
+    http: connectHttp,
+    socket: connectSocket
   },
   auth
 }
