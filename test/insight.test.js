@@ -3,19 +3,19 @@
 const nock = require('nock')
 const assert = require('assert')
 const config = require('../config')
-const { insight } = require('../')
+const { connect } = require('../')
 
 const coin = 'btc'
 const network = 'mainnet'
-const url = config.urls.insight[`${coin}-${network}`]
+const url = config.urls.connect[`${coin}-${network}`]
 const blockHash = '00000000000ef57d9307f89f36e052afdfceaeb71deb8d36cfdd11dcef' +
                   'dc2490'
 const transactionId = 'f64a111dba007fae77e0ad0488d9844b9e8b075fda321265a0e885' +
                       '56c98f1c94'
 const address = 'mtbLoq1aCQ8VceaWKCmQsjwrEQkN4m8hbF'
 
-describe('Insight Client', function () {
-  const client = insight.http({
+describe('Connect Client', function () {
+  const client = connect.http({
     coin: 'btc',
     network: 'mainnet',
     url,
@@ -30,12 +30,12 @@ describe('Insight Client', function () {
   client.accessToken = 'ACCESS_TOKEN'
 
   it('throws if client id or client secret are not defined', function () {
-    assert.throws(() => insight.http({
+    assert.throws(() => connect.http({
       coin: 'btc',
       network: 'mainnet'
     }), Error)
 
-    assert.throws(() => insight.http({
+    assert.throws(() => connect.http({
       coin: 'btc',
       network: 'mainnet',
       auth: {
@@ -43,7 +43,7 @@ describe('Insight Client', function () {
       }
     }), Error)
 
-    assert.throws(() => insight.http({
+    assert.throws(() => connect.http({
       coin: 'btc',
       network: 'mainnet',
       auth: {
@@ -51,7 +51,7 @@ describe('Insight Client', function () {
       }
     }), Error)
 
-    assert.doesNotThrow(() => insight.http({
+    assert.doesNotThrow(() => connect.http({
       coin: 'btc',
       network: 'mainnet',
       auth: {

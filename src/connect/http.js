@@ -9,12 +9,12 @@ const JWT_EXPIRED_ERROR = 'jwt expired'
 function createClient ({
   coin = 'btc',
   network = 'mainnet',
-  url = config.urls.insight[`${coin}-${network}`],
+  url = config.urls.connect[`${coin}-${network}`],
   auth = {}
 }) {
   if (!auth.clientId || !auth.clientSecret) {
     throw new Error(
-      'Failed creating BloqCloud insight client. client id and client ' +
+      'Failed creating BloqCloud Connect client. client id and client ' +
       'secret are required'
     )
   }

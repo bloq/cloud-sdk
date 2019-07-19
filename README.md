@@ -18,12 +18,12 @@ $ yarn add @bloq/cloud-sdk
 This SDK exposes multiple libraries. Each documentation can be found in the links below
 
 ```javascript
-const { auth, insight } = require('@bloq/cloud-sdk')
+const { auth, connect } = require('@bloq/cloud-sdk')
 
 ```
 
 * [Auth](./src/auth/README.md)
-* [Insight](./src/insight/README.md)
+* [Connect](./src/connect/README.md)
 
 ## Test
 

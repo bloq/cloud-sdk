@@ -1,4 +1,4 @@
-# Insight cloud-sdk
+# Connect cloud-sdk
 Javascript SDK to interact with BloqCloud blockchains
 
 ## Install
@@ -14,14 +14,14 @@ $ yarn add @bloq/cloud-sdk
 ## Use
 
 ```javascript
-const { insight } = require('@bloq/cloud-sdk')
+const { connect } = require('@bloq/cloud-sdk')
 
 const clientId = 'CLIENT_ID'
 const clientSecret = 'CLIENT_SECRET'
 const coin = 'btc'
 const network = 'mainnet'
 
-const client = insight.http({
+const client = connect.http({
   clientId,
   clientSecret,
   coin,
