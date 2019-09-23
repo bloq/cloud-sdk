@@ -3,7 +3,7 @@
 const nock = require('nock')
 const assert = require('assert')
 const config = require('../config')
-const { connect } = require('../')
+const { connect } = require('..')
 
 const coin = 'btc'
 const network = 'mainnet'
