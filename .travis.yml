@@ -1,16 +1,16 @@
 language: node_js
 node_js:
-  - "10"
-  - "8"
+  - '10'
+  - '12'
 
 cache:
   directories:
-    - "node_modules"
+    - 'node_modules'
 
 if: tag IS blank
 
 script:
-  - npm run lint
+  - npm run lint -- --quiet
   - npm test
 
 jobs:
