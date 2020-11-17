@@ -2,7 +2,7 @@
 
 const io = require('socket.io-client')
 const config = require('../../config')
-const { auth: createAuthClient } = require('../..')
+const createAuthClient = require('../auth')
 
 const JWT_EXPIRED_ERROR = 'jwt expired'
 
